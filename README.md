@@ -1,10 +1,11 @@
 1. A description of the scenario your project is operating in.
-    My project:  is a note managing scenario where 
-        1. Users can register, log in securely, and manage their notes.  
-        2. Users can add title, content and category. 
-        3. By default User authorization role is provided.
-        4. Can do a text search in note title.
+    My project:  It is a note managing scenario where 
+        1. Users can register, login, and manage their notes.  
+        2. Users can add title, content and category of notes. 
+        4. User role can add/update their notes.
         5. Admin role can add/update/delete a Category.
+        6. can do a text search in note title.
+
 
 2. A description of what problem your project seeks to solve.
     Providing a note management functionality for me and my family members to create, read, update, and delete notes.  It helps to organizing notes by category.
@@ -45,6 +46,6 @@
         • It will be a saved Postman collection
 
 5. A timeline for what project components you plan to complete, week by week, for the remainder of the class. 
-    Week7: design, setup repo and deployment, Start to work on user/notes models and routes, authentication and authorization
+    Week7: design, setup repo and deployment, Start on user models and routes, authentication and authorization
     Week8: Continue to work on user/notes.  Work on category models$routes, authentication and authorizationAdd tests. 
     Week9: Continue to work on user/notes/category and authentication and authorization, Add tests.  Compile Postman outputs, presentation prep…
