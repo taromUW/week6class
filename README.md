@@ -1,3 +1,16 @@
+Update as of 5/26:
+Completed: initial set of models/routes/daos, user authentication, tested with postman, some jest tests, 
+
+ToDos/Will need to work on:
+- work on a few missing CRUD
+- work on authorization
+- work on aggregation
+- testing with postman
+- work on more test coverage with jest
+
+
+
+
 1. A description of the scenario your project is operating in.
 
     My project:  It is a note managing scenario where 
