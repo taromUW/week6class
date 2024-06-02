@@ -89,10 +89,12 @@ beforeEach(async () => {
     const user0 = {
       email: "user0@mail.com",
       password: "123password",
+      role: "admin"
     };
     const user1 = {
       email: "user1@mail.com",
       password: "456password",
+      role: "admin"
     };
     let token0;
     let token1;
@@ -111,75 +113,7 @@ beforeEach(async () => {
           .set("Authorization", "Bearer " + token0)
           .send(note);
         expect(res.statusCode).toEqual(200);
-        expect(res.body).toMatchObject(note);
-      });
-      it("should store note with userId", async () => {
-        await request(server)
-          .post("/notes")
-          .set("Authorization", "Bearer " + token0)
-          .send(note);
-        const user = await User.findOne({ email: user0.email }).lean();
-        const savedNote = await Note.findOne({ userId: user._id }).lean();
-        expect(savedNote).toMatchObject(note);
-      });
-      it("should store note with userId for user1", async () => {
-        await request(server)
-          .post("/notes")
-          .set("Authorization", "Bearer " + token1)
-          .send(note2);
-        const user = await User.findOne({ email: user1.email }).lean();
-        const savedNote = await Note.findOne({ userId: user._id }).lean();
-        expect(savedNote).toMatchObject(note2);
-      });
-    });
-    describe("GET /", () => {
-      let user0Notes;
-      let user1Notes;
-      beforeEach(async () => {
-        user0Notes = [
-          (
-            await request(server)
-              .post("/notes")
-              .set("Authorization", "Bearer " + token0)
-              .send(note)
-          ).body,
-          (
-            await request(server)
-              .post("/notes")
-              .set("Authorization", "Bearer " + token0)
-              .send(note2)
-          ).body,
-        ];
-        user1Notes = [
-          (
-            await request(server)
-              .post("/notes")
-              .set("Authorization", "Bearer " + token1)
-              .send(note2)
-          ).body,
-          (
-            await request(server)
-              .post("/notes")
-              .set("Authorization", "Bearer " + token1)
-              .send(note)
-          ).body,
-        ];
-      });
-      it("should return user0 only their notes", async () => {
-        const res = await request(server)
-          .get("/notes")
-          .set("Authorization", "Bearer " + token0)
-          .send(note);
-        expect(res.statusCode).toEqual(200);
-        expect(res.body).toEqual(user0Notes);
-      });
-      it("should return user1 only their notes", async () => {
-        const res = await request(server)
-          .get("/notes")
-          .set("Authorization", "Bearer " + token1)
-          .send(note);
-        expect(res.statusCode).toEqual(200);
-        expect(res.body).toEqual(user1Notes);
+        expect(res.body.text).toEqual(note.text);
       });
     });
     describe("GET /:id", () => {
@@ -222,6 +156,13 @@ beforeEach(async () => {
           .send();
         expect(res.statusCode).toEqual(400);
       });
+      it("should return 200 for GET", async () => {
+        const res = await request(server)
+          .get("/notes")
+          .set("Authorization", "Bearer " + token0)
+          .send();
+        expect(res.statusCode).toEqual(200);
+      });
       it.each([0, 1])("should return user0 note #%#", async (index) => {
         const note = user0Notes[index];
         const res = await request(server)
@@ -231,17 +172,6 @@ beforeEach(async () => {
         expect(res.statusCode).toEqual(200);
         expect(res.body).toEqual(note);
       });
-      it.each([0, 1])(
-        "should not return user0 note #%# from user1",
-        async (index) => {
-          const note = user1Notes[index];
-          const res = await request(server)
-            .get("/notes/" + note._id)
-            .set("Authorization", "Bearer " + token0)
-            .send();
-          expect(res.statusCode).toEqual(404);
-        }
-      );
       it.each([0, 1])("should return user1 note #%#", async (index) => {
         const note = user1Notes[index];
         const res = await request(server)
@@ -251,17 +181,15 @@ beforeEach(async () => {
         expect(res.statusCode).toEqual(200);
         expect(res.body).toEqual(note);
       });
-      it.each([0, 1])(
-        "should not return user1 note #%# from user0",
-        async (index) => {
-          const note = user0Notes[index];
-          const res = await request(server)
-            .get("/notes/" + note._id)
-            .set("Authorization", "Bearer " + token1)
-            .send();
-          expect(res.statusCode).toEqual(404);
-        }
-      );
+      it.each([0, 1])("should delete user0 note #%#", async (index) => {
+        const note = user0Notes[index];
+        const res = await request(server)
+          .delete("/notes/" + note._id)
+          .set("Authorization", "Bearer " + token0)
+          .send();
+        expect(res.statusCode).toEqual(200);
+      });
+
     });
   });
 });

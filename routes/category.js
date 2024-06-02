@@ -3,6 +3,8 @@ const router = Router();
 const categoryDAO = require('../daos/category');
 const isLoggedIn = require('./isLoggedIn');
 
+
+//check Authorization
 router.post("/",  async (req, res, next) => {
     req.text = req.body.text;
     if (!req.text || JSON.stringify(req.text) === '{}' ) {

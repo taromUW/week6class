@@ -30,7 +30,7 @@ router.post("/signup",  async (req, res, next) => {
 router.post("/signup", async (req, res, next) => {
     try {
         const hashedPassword = await bcrypt.hash(req.password, 10);
-        const createdUser = await userDAO.createUser({ email:req.body.email, password:hashedPassword });
+        const createdUser = await userDAO.createUser({ email:req.body.email, password:hashedPassword, role: req.body.role });
         res.sendStatus(200);
         res.json(createdUser);
     } catch(e) {

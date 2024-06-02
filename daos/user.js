@@ -16,6 +16,12 @@ module.exports.getUser = async (email) => {
     return user;
 }
 
+module.exports.getUserById = async (userId) => {
+  const user = await User.findOne({ _id: userId });
+  return user;
+}
+
+
 module.exports.updateUserPassword = async (userId, password) => {
   const updatedPassword = await User.findByIdAndUpdate(userId, {password: password});
   return updatedPassword;
