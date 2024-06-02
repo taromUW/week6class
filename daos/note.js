@@ -24,6 +24,29 @@ module.exports.getNote = (userId, noteId) => {
   return Note.findOne({ userId: userId, _id:noteId })
 }
 
+module.exports.getNoteById = (noteId) => {
+  return Note.findOne({ _id:noteId })
+}
 module.exports.getUserNotes = (userId) => {
   return Note.find({ userId: userId });
 }
+
+module.exports.updateById = async (noteId, newData) => {
+  try {
+    const newnote = await Note.findOneAndUpdate({ _id: noteId }, newData, { new: true }).lean();
+    return newnote;
+  } catch (e) {
+    return null;
+  }
+};
+
+module.exports.removeById = async (noteId) => {
+    return Note.findByIdAndRemove({_id:noteId });
+}
+
+module.exports.getStats = () => {
+  return Note.aggregate([
+//    { $match: { userId }},
+    { $group: { _id: '$userId', count: { $sum: 1},},},
+  ]);
+};

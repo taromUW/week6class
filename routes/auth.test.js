@@ -14,10 +14,12 @@ describe("/auth", () => {
   const user0 = {
     email: "user0@mail.com",
     password: "123password",
+    roles: ["user"],
   };
   const user1 = {
     email: "user1@mail.com",
     password: "456password",
+    roles: ["user"],
   };
 
   describe("before signup", () => {
@@ -45,6 +47,12 @@ describe("/auth", () => {
 
   describe("signup ", () => {
     describe("POST /signup", () => {
+      it("should return 400 without an email", async () => {
+        const res = await request(server).post("/auth/signup").send({
+          email: "",
+        });
+        expect(res.statusCode).toEqual(400);
+      });
       it("should return 400 without a password", async () => {
         const res = await request(server).post("/auth/signup").send({
           email: user0.email,
