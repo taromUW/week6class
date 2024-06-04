@@ -50,3 +50,11 @@ module.exports.getStats = () => {
     { $group: { _id: '$userId', count: { $sum: 1},},},
   ]);
 };
+
+module.exports.search = (query) => {
+  return Note.find(
+  { $text: { $search: query}},
+  { score: { $meta: "textScore"}}
+  )
+  .sort({ score: { $meta: "textScore" } });
+}

@@ -8,4 +8,7 @@ const noteSchema = new mongoose.Schema({
   categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' } // Reference to the Category model
 });
 
+noteSchema.index({ userId: 1});
+noteSchema.index({ text: "text"});
+
 module.exports = mongoose.model("notes", noteSchema);
