@@ -10,6 +10,17 @@ router.get("/stats", isLoggedIn, authNote(["admin"]), async (req, res, next) => 
     res.json(stats);
   });
 
+// Search
+router.get("/search", isLoggedIn, authNote(["admin"]), async (req, res, next) => {
+    let { query } = req.query;
+    console.log(query);
+    if (query) {
+      const notes = await noteDAO.search(query);
+      console.log(notes);
+      res.json(notes);
+    }
+  });
+
 router.post("/",  async (req, res, next) => {
     req.text = req.body.text;
     if (!req.text || JSON.stringify(req.text) === '{}' ) {
