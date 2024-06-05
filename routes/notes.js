@@ -6,17 +6,14 @@ const {authNote} = require('./middlewares');
 
 router.get("/stats", isLoggedIn, authNote(["admin"]), async (req, res, next) => {
     const stats = await noteDAO.getStats();
-    console.log(stats);
     res.json(stats);
   });
 
 // Search
 router.get("/search", isLoggedIn, authNote(["admin"]), async (req, res, next) => {
     let { query } = req.query;
-    console.log(query);
     if (query) {
       const notes = await noteDAO.search(query);
-      console.log(notes);
       res.json(notes);
     }
   });
@@ -44,7 +41,6 @@ router.post("/", isLoggedIn, async (req, res, next) => {
 
 router.get("/:id", isLoggedIn, async (req, res, next) => {
     try {
-//        req.note = await noteDAO.getNote(req.userId, req.params.id);
         req.note = await noteDAO.getNoteById(req.params.id);
         if (!req.note) {
             res.sendStatus(404);
