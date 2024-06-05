@@ -1,3 +1,15 @@
+Self-evalutaion:
+- I think this was a good starter project for me to build.  I was able to make the three routes(auth/notes/category) working.
+The challenging part was setting up test sets, it took me a long time to figuer out.  
+I'm hoping to keep adding functionality to this to make it better.
+Overall, I learned a lot from this project and from this course as a whole.  Thank you.
+
+
+Update as of 6/4:
+- added search
+- cleaned up, removed console.logs
+- Jest test coverage: 84.5% lines
+
 Update as of 6/2:
 - added missing delete and update for note
 - added authorization middleware
